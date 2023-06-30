@@ -15,7 +15,7 @@ def download_matching_files(ftp, path, prefix, region):
             print(f"Downloading {file_name}...")
             try:
                 local_file_name = os.path.basename(file_name)
-                region_directory = f"./{region}"
+                region_directory = f"./downloads/{region}"
                 os.makedirs(region_directory, exist_ok=True)
                 local_path = os.path.join(region_directory, local_file_name)
 
