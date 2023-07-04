@@ -11,7 +11,7 @@ def download_matching_files(ftp, path, prefix, region):
         return
 
     for file_name in file_list:
-        if prefix in file_name and file_name.endswith('.zip'):
+        if prefix in file_name and file_name.endswith('.zip') and ('2022' in file_name or '2023' in file_name):
             print(f"Downloading {file_name}...")
             try:
                 local_file_name = os.path.basename(file_name)
@@ -31,7 +31,7 @@ def download_matching_files(ftp, path, prefix, region):
 ftp_server = 'ftp.zakupki.gov.ru'
 ftp_username = 'free'
 ftp_password = 'free'
-file_prefix = 'purchasedoc' 
+file_prefix = 'purchaseplan' 
 
 ftp = FTP(ftp_server)
 ftp.login(user=ftp_username, passwd=ftp_password)
@@ -46,7 +46,7 @@ except Exception as e:
     regions = []
 
 for region in regions:
-    start_directory = f'/fcs_regions/{region}/purchasedocs' 
+    start_directory = f'/fcs_regions/{region}/purchaseplans' 
     download_matching_files(ftp, start_directory, file_prefix, region)
 
 ftp.quit()
