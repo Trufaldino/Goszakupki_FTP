@@ -27,28 +27,28 @@ def create_database():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute("CREATE TABLE IF NOT EXISTS imports (filename TEXT PRIMARY KEY, file_date TEXT, import_date TEXT, record_count INTEGER)")
+    c.execute("CREATE TABLE IF NOT EXISTS purchase_files (id INTEGER PRIMARY KEY, filename TEXT, file_date TEXT, import_date TEXT, record_count INTEGER, status TEXT)")
 
     conn.commit()
     conn.close()
 
-
 def check_and_insert_file(filename):
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
-    filename = os.path.basename(filename)
-    c.execute("SELECT filename FROM imports WHERE filename = ?", (filename,))
+
+    relative_path = os.path.relpath(filename, directory)
+    c.execute("SELECT filename FROM purchase_files WHERE filename = ?", (relative_path,))
     result = c.fetchone()
 
     if not result:
-        filename = os.path.basename(filename)
         file_date = re.search(r"_(\d{10})_", filename).group(1)
         file_date = datetime.strptime(file_date, "%Y%m%d%H").strftime("%Y-%m-%d")
         import_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        record_count = c.execute("SELECT COUNT(*) FROM imports").fetchone()[0] + 1
+        record_count = c.execute("SELECT COUNT(*) FROM purchase_files").fetchone()[0] + 1
+        status = "new"
 
-        c.execute("INSERT INTO imports (filename, file_date, import_date, record_count) VALUES (?, ?, ?, ?)",
-                  (filename, file_date, import_date, record_count))
+        c.execute("INSERT INTO purchase_files (filename, file_date, import_date, record_count, status) VALUES (?, ?, ?, ?, ?)",
+                  (relative_path, file_date, import_date, record_count, status))
 
         print("Файл успешно добавлен в базу данных.")
 
