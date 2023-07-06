@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+</head>
+<body>
+    <div class="container">
+
+
+        <h1>Purchases</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>External ID</th>
+                    <th>Total Price</th>
+                    <th>Purchase Object Info</th>
+                    <th>Publish Year</th>
+                    <th>Purchase Files</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ purchase.externalId }}</td>
+                    <td>{{ purchase.total_price }}</td>
+                    <td>{{ purchase.purchase_object_info }}</td>
+                    <td>{{ purchase.publish_year }}</td>
+                    <td>{{ purchase.purchase_files }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
