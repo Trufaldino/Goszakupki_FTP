@@ -13,12 +13,12 @@ def login_view(request):
             form = AuthenticationForm(request, data=request.POST)
             if form.is_valid():
                 auth_views.LoginView.as_view(template_name='login.html')(request)
-                return redirect('purchase_app:index')
+                return redirect('purchase_app:request_list')
         else:
             form = AuthenticationForm()
         return render(request, 'login.html', {'form': form})
     else:
-        return redirect('purchase_app:index')
+        return redirect('purchase_app:request_list')
 
 
 def logout_view(request):
