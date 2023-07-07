@@ -1,17 +1,24 @@
 from django.shortcuts import render, redirect
 from .forms import RequestModelForm
 from .models import PurchasePlanModel, PurchaseModel, RequestModel
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.urls import reverse
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
 
 def login_view(request):
-    if request.user.is_authenticated:
-        return redirect('purchase_app:index')
+    if not request.user.is_authenticated:
+        if request.method == 'POST':
+            form = AuthenticationForm(request, data=request.POST)
+            if form.is_valid():
+                auth_views.LoginView.as_view(template_name='login.html')(request)
+                return redirect('purchase_app:index')
+        else:
+            form = AuthenticationForm()
+        return render(request, 'login.html', {'form': form})
     else:
-        return auth_views.LoginView.as_view(template_name='login.html')(request)
+        return redirect('purchase_app:index')
 
 
 def logout_view(request):

@@ -3,10 +3,21 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-  <h1>Login</h1>
-  <form method="post">
+<div class="container mt-4"> <!-- Add the 'text-center' class to center the form -->
+  <h2 class="text-center">Login</h2>
+  <form method="post" class="col-md-6 mx-auto">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
+    {% for field in form %}
+    <div class="form-group">
+      <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
+      <div class="input-group">
+        <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.value %}value="{{ field.value }}"{% endif %}>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="container mt-4 text-center">
+    <button type="submit" class="btn btn-primary">Login</button>
+    <div>
   </form>
+</div>
 {% endblock %}
