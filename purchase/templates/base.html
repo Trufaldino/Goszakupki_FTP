@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}My App{% endblock %}</title>
+  <title>{% block title %}Менеджер закупок{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'purchase_app:index' %}">Purchases</a>
+    <a class="navbar-brand" href="{% url 'purchase_app:index' %}">Менеджер закупок</a>
     <ul class="navbar-nav mr-auto">
       {% if user.is_authenticated %}
         <li class="nav-item">

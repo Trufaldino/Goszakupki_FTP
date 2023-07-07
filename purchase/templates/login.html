@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
-
-{% block title %}Login{% endblock %}
-
 {% block content %}
-<div class="container mt-4"> <!-- Add the 'text-center' class to center the form -->
+<div class="container mt-4">
   <h2 class="text-center">Login</h2>
   <form method="post" class="col-md-6 mx-auto">
     {% csrf_token %}
