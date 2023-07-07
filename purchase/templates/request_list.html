@@ -1,35 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h1>Request List</h1>
-  <table class="table">
-    <thead>
+<h1>Request List</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Created date</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Auction date</th>
+      <th>Price</th>
+      <th>Completion date</th>
+      <th>Comment</th>
+      <th>User</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for request in requests %}
       <tr>
-        <th>Title</th>
-        <th>Created date</th>
-        <th>Description</th>
-        <th>Status</th>
-        <th>Auction date</th>
-        <th>Price</th>
-        <th>Completion date</th>
-        <th>Comment</th>
-        <th>User</th>
+        <td>{{ request.title }}</td>
+        <td>{{ request.created_date }}</td>
+        <td>{{ request.description }}</td>
+        <td>{{ request.status }}</td>
+        <td>{{ request.auction_date }}</td>
+        <td>{{ request.price }}</td>
+        <td>{{ request.completion_date }}</td>
+        <td>{{ request.comment }}</td>
+        <td>{{ request.user }}</td>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      {% for request in requests %}
-        <tr>
-          <td>{{ request.title }}</td>
-          <td>{{ request.created_date }}</td>
-          <td>{{ request.description }}</td>
-          <td>{{ request.status }}</td>
-          <td>{{ request.auction_date }}</td>
-          <td>{{ request.price }}</td>
-          <td>{{ request.completion_date }}</td>
-          <td>{{ request.comment }}</td>
-          <td>{{ request.user }}</td>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
