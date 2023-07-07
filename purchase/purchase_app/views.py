@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .forms import RequestModelForm
 from .models import PurchasePlanModel, PurchaseModel, RequestModel
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -59,8 +59,9 @@ def create_request(request):
 
 @login_required
 def request_list(request):
-    requests = RequestModel.objects.filter(user=request.user)  # Filter requests by the logged-in user
-    return render(request, 'request_list.html', {'requests': requests})
+    requests = RequestModel.objects.filter(user=request.user)
+    form = RequestModelForm()
+    return render(request, 'request_list.html', {'requests': requests, 'form': form})
 
 
 def sign_up(request):
@@ -72,3 +73,18 @@ def sign_up(request):
     else:
         form = UserCreationForm()
     return render(request, 'sign_up.html', {'form': form})
+
+
+@login_required
+def edit_request(request, id):
+    request_obj = get_object_or_404(RequestModel, id=id, user=request.user)
+
+    if request.method == 'POST':
+        form = RequestModelForm(request.POST, instance=request_obj)
+        if form.is_valid():
+            form.save()
+            return redirect('purchase_app:request_list')
+    else:
+        form = RequestModelForm(instance=request_obj)
+
+    return render(request, 'edit_request.html', {'request': request_obj, 'form': form})

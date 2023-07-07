@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="post" action="{% url 'purchase_app:edit_request' request.id %}">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col">
+      <h2>Редактирование закупки</h2>
+    </div>
+    <div class="col-auto text-right">
+      <button type="submit" class="btn btn-primary">Добавить</button>
+    </div>
+  </div>
+  {% for field in form %}
+  <div class="form-group mt-2 mb-2">
+    <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
+    <div class="input-group">
+      {% if field.name == 'status' %}
+        <select name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}">
+          {% for value, label in field.field.choices %}
+            <option value="{{ value }}" {% if value == field.value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      {% else %}
+        <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.value %}value="{{ field.value }}"{% endif %}>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</form>
+{% endblock %}
