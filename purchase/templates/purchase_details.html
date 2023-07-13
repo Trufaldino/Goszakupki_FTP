@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block content %}
 <div class="container">
-    <h1>Purchases</h1>
+    <h1>{% trans "Purchases" %}</h1>
     <table class="table">
         <thead>
             <tr>
-                <th>External ID</th>
-                <th>Total Price</th>
-                <th>Purchase Object Info</th>
-                <th>Publish Year</th>
-                <th>Purchase Files</th>
+                <th>{% trans "External ID" %}</th>
+                <th>{% trans "Total Price" %}</th>
+                <th>{% trans "Purchase Object Info" %}</th>
+                <th>{% trans "Publish Year" %}</th>
+                <th>{% trans "Purchase Files" %}</th>
             </tr>
         </thead>
         <tbody>

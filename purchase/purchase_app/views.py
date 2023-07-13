@@ -43,27 +43,6 @@ def purchase_details(request, id):
     return render(request, 'purchase_details.html', context)
 
 
-@login_required
-def create_request(request):
-    if request.method == 'POST':
-        form = RequestModelForm(request.POST)
-        if form.is_valid():
-            request_obj = form.save(commit=False)
-            request_obj.user = request.user
-            request_obj.save()
-            return redirect('purchase_app:request_list')
-    else:
-        form = RequestModelForm()
-    return render(request, 'create_request.html', {'form': form})
-
-
-@login_required
-def request_list(request):
-    requests = RequestModel.objects.filter(user=request.user)
-    form = RequestModelForm()
-    return render(request, 'request_list.html', {'requests': requests, 'form': form})
-
-
 def sign_up(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -76,9 +55,33 @@ def sign_up(request):
 
 
 @login_required
+def create_request(request):
+    form = RequestModelForm(request.POST or None)
+    
+    if request.method == 'POST':
+        if form.is_valid():
+            request_obj = form.save(commit=False)
+            request_obj.user = request.user
+            request_obj.save()
+            return redirect('purchase_app:request_list')
+    
+    context = {'form': form}
+    return render(request, 'create_request.html', context)
+
+
+@login_required
+def request_list(request):
+    requests = RequestModel.objects.filter(user=request.user)
+    form = RequestModelForm()
+    context = {'requests': requests, 'form': form}
+    return render(request, 'request_list.html', context)
+
+
+
+@login_required
 def edit_request(request, id):
     request_obj = get_object_or_404(RequestModel, id=id, user=request.user)
-
+    
     if request.method == 'POST':
         form = RequestModelForm(request.POST, instance=request_obj)
         if form.is_valid():
@@ -87,4 +90,6 @@ def edit_request(request, id):
     else:
         form = RequestModelForm(instance=request_obj)
 
-    return render(request, 'edit_request.html', {'request': request_obj, 'form': form})
+    context = {'request': request_obj, 'form': form}
+    return render(request, 'edit_request.html', context)
+
