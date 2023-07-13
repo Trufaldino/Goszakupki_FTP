@@ -1,29 +1,32 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}Менеджер закупок{% endblock %}</title>
+  <html lang="ru">
+  <title>{% block title %}{% trans "Purchase Manager" %}{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  {% load i18n %}
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'purchase_app:index' %}">Менеджер закупок</a>
+    <a class="navbar-brand" href="{% url 'purchase_app:index' %}">{% trans "Purchase Manager" %}</a>
     <ul class="navbar-nav mr-auto">
       {% if user.is_authenticated %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'purchase_app:request_list' %}">Мои закупки</a>
+            <a class="nav-link" href="{% url 'purchase_app:request_list' %}">{% trans "My Purchases" %}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'purchase_app:logout' %}">Выход</a>
+            <a class="nav-link" href="{% url 'purchase_app:logout' %}">{% trans "Logout" %}</a>
         </li>
       {% else %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'purchase_app:auth_login' %}">Вход</a>
+          <a class="nav-link" href="{% url 'purchase_app:auth_login' %}">{% trans "Login" %}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'purchase_app:sign_up' %}">Регистрация</a>
+            <a class="nav-link" href="{% url 'purchase_app:sign_up' %}">{% trans "Sign up" %}</a>
           </li>
       {% endif %}
     </ul>
@@ -33,7 +36,6 @@
     {% block content %}
     {% endblock %}
   </div>
-
   <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 </body>
 </html>

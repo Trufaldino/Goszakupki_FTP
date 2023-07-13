@@ -1,68 +1,38 @@
-{% extends 'base.html' %}
-{% block content %}
-<h1>Мои закупки</h1>
-<a class="btn btn-primary" href="{% url 'purchase_app:create_request' %}">Добавить закупку</a>
-<table class="table">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Реестровый номер извещения</th>
-      <th>Наименование закупки</th>
-      <th>Начальная цена</th>
-      <th>Окончание подачи заявок</th>
-      <th>Статус</th>
-      <th>Действия</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for request in requests %}
+  {% extends 'base.html' %}
+  {% load i18n %}
+  {% block content %}
+  <h1>{% trans "My Purchases" %}</h1>
+  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal" href="{% url 'purchase_app:create_request' %}">{% trans "Add Purchase" %}</a>
+  <table class="table">
+    <thead>
       <tr>
-        <td>{{ request.id }}</td>
-        <td>{{ request.registry_number }}</td>
-        <td>{{ request.purchase_name }}</td>
-        <td>{{ request.initial_price }}</td>
-        <td>{{ request.bid_submission_deadline }}</td>
-        <td>{{ request.status }}</td>
-        <td>
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ request.id }}">Редактировать</button>
-        </td>
+        <th>ID</th>
+        <th>{% trans "Registry Number" %}</th>
+        <th>{% trans "Purchase Name" %}</th>
+        <th>{% trans "Initial Price" %}</th>
+        <th>{% trans "Bid Submission Deadline" %}</th>
+        <th>{% trans "Status" %}</th>
+        <th>{% trans "Actions" %}</th>
       </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {% for request in requests %}
+        <tr>
+          <td>{{ request.id }}</td>
+          <td>{{ request.registry_number }}</td>
+          <td>{{ request.purchase_name }}</td>
+          <td>{{ request.initial_price }}</td>
+          <td>{{ request.bid_submission_deadline }}</td>
+          <td>{{ request.status }}</td>
+          <td>
+            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ request.id }}" href="{% url 'purchase_app:edit_request' request.id %}">{% trans "Edit Purchase" %}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% for request in requests %}
-<!-- Modal -->
-<div class="modal fade" id="editModal{{ request.id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ request.id }}" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editModalLabel{{ request.id }}">Редактирование закупки</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form method="post" action="{% url 'purchase_app:edit_request' request.id %}">
-          {% csrf_token %}
-          {% for field in form %}
-          <div class="form-group mt-2 mb-2">
-            <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
-            <div class="input-group">
-              {% if field.name == 'status' %}
-                <select name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}">
-                  {% for value, label in field.field.choices %}
-                    <option value="{{ value }}" {% if value == field.value %}selected{% endif %}>{{ label }}</option>
-                  {% endfor %}
-                </select>
-              {% else %}
-                <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.value %}value="{{ field.value }}"{% endif %}>
-              {% endif %}
-            </div>
-          </div>
-          {% endfor %}
-          <button type="submit" class="btn btn-primary">Добавить</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+ {% include 'edit_request.html' with request_id=request.id %}
 {% endfor %}
+{% include 'create_request.html' %}
 {% endblock %}

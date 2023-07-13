@@ -68,7 +68,7 @@ class RequestModel(models.Model):
         verbose_name='Дата и время окончания срока подачи заявок (dd.mm.YYYY mm:hh) timedate (UTC)'
     )
     contract_completion_date = models.DateField(verbose_name='Дата выполнения контракта', blank=True, null=True)
-    comment = models.TextField(verbose_name='Комментарий', blank=True)
+    comment = models.TextField(verbose_name='Комментарий', blank=True, null=True)
     status = models.CharField(verbose_name='Статус', max_length=150, choices=STATUS_CHOICES, default='new')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
