@@ -142,3 +142,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'purchase_app:request_list'
 
 LOGIN_URL = 'purchase_app:auth_login'
+
+LOGIN_EXEMPT_URLS = [
+    'auth_login',
+    'sign_up',
+]

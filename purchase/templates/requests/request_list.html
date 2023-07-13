@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<h1>{% trans "My Purchases" %}</h1>
+<a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal" href="{% url 'purchase_app:create_request' %}">{% trans "Add Purchase" %}</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>{% trans "Registry Number" %}</th>
+      <th>{% trans "Purchase Name" %}</th>
+      <th>{% trans "Initial Price" %}</th>
+      <th>{% trans "Bid Submission Deadline" %}</th>
+      <th>{% trans "Status" %}</th>
+      <th>{% trans "Actions" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for request in requests %}
+      <tr>
+        <td>{{ request.id }}</td>
+        <td>{{ request.registry_number }}</td>
+        <td>{{ request.purchase_name }}</td>
+        <td>{{ request.initial_price }}</td>
+        <td>{{ request.bid_submission_deadline }}</td>
+        <td>{{ request.status }}</td>
+        <td>
+          <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ request.id }}" href="{% url 'purchase_app:edit_request' request.id %}">{% trans "Edit Purchase" %}</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% for request in requests %}
+{% include 'requests/edit_request.html' %}
+{% endfor %}
+{% include 'requests/create_request.html' %}
+{% endblock %}

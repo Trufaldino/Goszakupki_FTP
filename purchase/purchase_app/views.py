@@ -16,23 +16,23 @@ def login_view(request):
                 return redirect('purchase_app:request_list')
         else:
             form = AuthenticationForm()
-        return render(request, 'login.html', {'form': form})
+        return render(request, 'auth/login.html', {'form': form})
     else:
         return redirect('purchase_app:request_list')
 
 
 def logout_view(request):
-    auth_views.LogoutView.as_view(next_page=reverse('purchase_app:index'))(request)
-    return redirect('purchase_app:index')
+    auth_views.LogoutView.as_view(next_page=reverse('purchase_app:purchase_plans'))(request)
+    return redirect('purchase_app:purchase_plans')
 
 
-def index(request):
+def purchase_plans(request):
     purchase_plans = PurchasePlanModel.objects.all()
     context = {
         'purchase_plans': purchase_plans,
-        'user': request.user,  # Pass the user object to the template context
+        'user': request.user, 
     }
-    return render(request, 'index.html', context)
+    return render(request, 'purchases/purchase_plans.html', context)
 
 
 def purchase_details(request, id):
@@ -40,7 +40,7 @@ def purchase_details(request, id):
     context = {
         'purchase': purchase,
     }
-    return render(request, 'purchase_details.html', context)
+    return render(request, 'purchases/purchase_details.html', context)
 
 
 def sign_up(request):
@@ -51,7 +51,7 @@ def sign_up(request):
             return redirect(reverse('purchase_app:auth_login'))
     else:
         form = UserCreationForm()
-    return render(request, 'sign_up.html', {'form': form})
+    return render(request, 'auth/sign_up.html', {'form': form})
 
 
 @login_required
@@ -66,7 +66,7 @@ def create_request(request):
             return redirect('purchase_app:request_list')
     
     context = {'form': form}
-    return render(request, 'create_request.html', context)
+    return render(request, 'requests/create_request.html', context)
 
 
 @login_required
@@ -74,14 +74,13 @@ def request_list(request):
     requests = RequestModel.objects.filter(user=request.user)
     form = RequestModelForm()
     context = {'requests': requests, 'form': form}
-    return render(request, 'request_list.html', context)
-
+    return render(request, 'requests/request_list.html', context)
 
 
 @login_required
 def edit_request(request, id):
     request_obj = get_object_or_404(RequestModel, id=id, user=request.user)
-    
+
     if request.method == 'POST':
         form = RequestModelForm(request.POST, instance=request_obj)
         if form.is_valid():
@@ -90,6 +89,8 @@ def edit_request(request, id):
     else:
         form = RequestModelForm(instance=request_obj)
 
-    context = {'request': request_obj, 'form': form}
-    return render(request, 'edit_request.html', context)
-
+    context = {
+        'request': request_obj,
+        'form': form,
+    }
+    return render(request, 'requests/edit_request.html', context)
