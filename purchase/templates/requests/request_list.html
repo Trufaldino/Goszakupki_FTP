@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
-<h1>{% trans "My Purchases" %}</h1>
-<a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal" href="{% url 'purchase_app:create_request' %}">{% trans "Add Purchase" %}</a>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>{% trans "My Purchases" %}</h1>
+  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal" href="{% url 'purchase_app:create_request' %}">{% trans "Add Purchase" %}</a>
+</div>
 <table class="table">
   <thead>
     <tr>
@@ -12,7 +14,7 @@
       <th>{% trans "Initial Price" %}</th>
       <th>{% trans "Bid Submission Deadline" %}</th>
       <th>{% trans "Status" %}</th>
-      <th>{% trans "Actions" %}</th>
+      <th class="text-center">{% trans "Actions" %}</th>
     </tr>
   </thead>
   <tbody>
@@ -24,7 +26,7 @@
         <td>{{ request.initial_price }}</td>
         <td>{{ request.bid_submission_deadline }}</td>
         <td>{{ request.status }}</td>
-        <td>
+        <td class="text-end">
           <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ request.id }}" href="{% url 'purchase_app:edit_request' request.id %}">{% trans "Edit Purchase" %}</a>
         </td>
       </tr>
