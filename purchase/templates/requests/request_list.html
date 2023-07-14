@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h1>{% trans "My Purchases" %}</h1>
@@ -22,7 +23,11 @@
       <tr>
         <td>{{ request.id }}</td>
         <td><a href="https://zakupki.gov.ru/epz/order/notice/ea20/view/common-info.html?regNumber={{ request.registry_number }}" target="_blank">{{ request.registry_number }}</a></td>
-        <td>{{ request.purchase_name }}</td>
+        <td>
+          <span tabindex="0" data-bs-toggle="popover" title="" data-bs-content="{{ request.purchase_name }}" data-bs-trigger="hover" data-bs-html="true" data-bs-original-title="">
+            {{ request.purchase_name|truncatechars:200 }}
+          </span>
+        </td>
         <td>{{ request.initial_price }}</td>
         <td>{{ request.bid_submission_deadline }}</td>
         <td>{{ request.status }}</td>
