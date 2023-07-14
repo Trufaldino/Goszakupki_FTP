@@ -24,7 +24,7 @@ def get_latest_file(directory):
 
 
 def create_database():
-    conn = sqlite3.connect("ftp_purchase/database.db")
+    conn = sqlite3.connect("purchase/database.db")
     c = conn.cursor()
 
     c.execute("CREATE TABLE IF NOT EXISTS purchase_files (id INTEGER PRIMARY KEY, filename TEXT, file_date TEXT, import_date TEXT, record_count INTEGER, status TEXT)")
@@ -33,7 +33,7 @@ def create_database():
     conn.close()
 
 def check_and_insert_file(filename):
-    conn = sqlite3.connect("ftp_purchase/database.db")
+    conn = sqlite3.connect("purchase/database.db")
     c = conn.cursor()
 
     relative_path = os.path.relpath(filename, directory)
