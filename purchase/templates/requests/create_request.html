@@ -1,0 +1,45 @@
+{% load i18n %}
+<!-- Create Request Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+  <!-- Modal content -->
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createModalLabel">{% trans "Add Purchase" %}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{% url 'purchase_app:create_request' %}" class="mx-auto">
+          {% csrf_token %}
+          <div class="row">
+            {% for field in form %}
+              <div class="col-xl-6">
+                <div class="form-group mt-2 mb-2">
+                  <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
+                  {% if field.field.required %}
+                    <span class="text-danger">*</span>
+                  {% endif %}
+                  <div class="input-group">
+                    {% if field.name == 'status' %}
+                      <select name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>
+                        {% for value, label in field.field.choices %}
+                          <option value="{{ value }}" {% if value == field.value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                      </select>
+                    {% else %}
+                      <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %} {% if field.value %}value="{{ field.value }}"{% endif %}>
+                    {% endif %}
+                  </div>
+                  {% for error in field.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <button type="submit" name="createRequest" class="btn btn-primary">{% trans "Submit" %}</button>
+        </form>    
+      </div>
+    </div>
+  </div>
+</div>
