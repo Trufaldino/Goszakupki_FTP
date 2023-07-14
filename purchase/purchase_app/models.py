@@ -51,7 +51,9 @@ class RequestModel(models.Model):
         ('contract_executed', 'Контракт исполнен'),
     )
 
-    registry_number = models.PositiveBigIntegerField(verbose_name='Реестровый номер извещения')
+    registry_number = models.CharField(
+        verbose_name='Реестровый номер извещения', max_length=75
+    )
     purchase_name = models.TextField(verbose_name='Наименование закупки')
     initial_price = models.PositiveBigIntegerField(verbose_name='Начальная цена')
     bid_security_amount = models.PositiveIntegerField(

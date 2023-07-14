@@ -2,7 +2,7 @@ import sqlite3
 import zipfile
 import xml.etree.ElementTree as ET
 
-conn = sqlite3.connect('ftp_purchase/database.db')
+conn = sqlite3.connect('purchase/database.db')
 cursor = conn.cursor()
 
 cursor.execute("SELECT * FROM purchase_files WHERE status = 'new'")

@@ -1,6 +1,6 @@
 import sqlite3
 
-connection = sqlite3.connect('ftp_purchase/database.db')
+connection = sqlite3.connect('purchase/database.db')
 cursor = connection.cursor()
 
 cursor.execute("SELECT id, filename, file_date, import_date, record_count, status FROM purchase_files")

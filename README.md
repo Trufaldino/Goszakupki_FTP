@@ -10,11 +10,11 @@ python3 import_purchase.py
 ```
 
 ```bash
-python3 script.py 
+python3 import_required_files.py
 ```
 
 ```bash
-python3 insert.py
+python3 insert_into_django_tables.py
 ```
 
 2. Create .env file and setup connection parameters
