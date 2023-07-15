@@ -108,3 +108,27 @@ msgstr "Действия"
 #: purchase/templates/requests/request_list.html:30
 msgid "Edit Purchase"
 msgstr "Редактирование закупки"
+
+#: purchase/templates/requests/request_details.html:30
+msgid "Comment"
+msgstr "Комментарий"
+
+#: purchase/templates/requests/request_details.html:30
+msgid "Contract Completion Date"
+msgstr "Дата выполнения контракта"
+
+#: purchase/templates/requests/request_details.html:30
+msgid "Warranty Period"
+msgstr "Срок гарантии (мес)"
+
+#: purchase/templates/requests/request_details.html:30
+msgid "Warranty Security Amount"
+msgstr "Размер обеспечения гарантии (руб)"
+
+#: purchase/templates/requests/request_details.html:30
+msgid "Work Security Amount"
+msgstr "Размер обеспечения работ (руб)"
+
+#: purchase/templates/requests/request_details.html:30
+msgid "Bid Security Amount"
+msgstr "Размер обеспечения заявки (руб)"
