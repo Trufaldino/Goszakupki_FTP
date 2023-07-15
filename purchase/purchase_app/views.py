@@ -94,3 +94,11 @@ def edit_request(request, id):
         'form': form,
     }
     return render(request, 'requests/edit_request.html', context)
+
+
+def request_details(request, id):
+    request_model = RequestModel.objects.get(id=id)
+    context = {
+        'request_model': request_model,
+    }
+    return render(request, 'requests/details.html', context)

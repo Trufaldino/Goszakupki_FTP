@@ -25,7 +25,7 @@
         <td><a href="https://zakupki.gov.ru/epz/order/notice/ea20/view/common-info.html?regNumber={{ request.registry_number }}" target="_blank">{{ request.registry_number }}</a></td>
         <td>
           <span tabindex="0" data-bs-toggle="popover" title="" data-bs-content="{{ request.purchase_name }}" data-bs-trigger="hover" data-bs-html="true" data-bs-original-title="">
-            {{ request.purchase_name|truncatechars:200 }}
+            <a href="{% url 'purchase_app:request_details' request.id %}">{{ request.purchase_name|truncatechars:200  }}</a>
           </span>
         </td>
         <td>{{ request.initial_price }}</td>

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<table class="table table-sm mt-2 mb-4 table-bordered table-hover">
+    <tbody>
+        <tr>
+            <td>{% trans "Registry Number" %}</td>
+            <td>{% firstof request_model.registry_number "<b>–</b>" %}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Purchase Name" %}</td>
+            <td>{% firstof  request_model.purchase_name "<b>–</b>" %}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Initial Price" %}</td>
+            <td>{% firstof request_model.initial_price "<b>–</b>" %}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Bid Security Amount" %}</td>
+            <td>{% firstof request_model.bid_security_amount "<b>–</b>" %}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Work Security Amount" %}</td>
+            <td>{% firstof request_model.work_security_amount "<b>–</b>" %}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Warranty Security Amount" %}</td>
+            <td>{% firstof request_model.warranty_security_amount "<b>–</b>" %}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Warranty Period" %}</td>
+            <td>{% firstof request_model.warranty_period "<b>–</b>" %}</td>
+        <tr>
+            <td>{% trans "Bid Submission Deadline" %}</td>
+            <td>{% firstof request_model.bid_submission_deadline "<b>–</b>" %}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Contract Completion Date" %}</td>
+            <td>{% firstof request_model.contract_completion_date "<b>–</b>" %}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Comment" %}</td>
+            <td>{% firstof request_model.comment "<b>–</b>" %}</td>
+        </tr>
+        <tr>
+            <td>{% trans "Status" %}</td>
+            <td>{% firstof request_model.status "<b>–</b>" %}</td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
