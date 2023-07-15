@@ -15,17 +15,17 @@
             {% for field in form %}
               <div class="col-xl-6">
                 <div class="form-group mt-2 mb-2">
-                  <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
-                  {% if field.field.required %}
-                    <span class="text-danger">*</span>
+                  {% if field.name != 'state' %}
+                    <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
+                    {% if field.field.required %}
+                      <span class="text-danger">*</span>
+                    {% endif %}
                   {% endif %}
                   <div class="input-group">
-                    {% if field.name == 'status' %}
-                      <select name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>
-                        {% for value, label in field.field.choices %}
-                          <option value="{{ value }}" {% if value == field.value %}selected{% endif %}>{{ label }}</option>
-                        {% endfor %}
-                      </select>
+                    {% if field.name == 'state' %}
+                      {% if not form.instance.pk %}
+                        <input type="hidden" name="{{ field.html_name }}" value="{{ field.field.initial }}">
+                      {% endif %}
                     {% else %}
                       <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %} {% if field.value %}value="{{ field.value }}"{% endif %}>
                     {% endif %}

@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
+from django_fsm import FSMIntegerField
 
 
 class PurchaseFilesModel(models.Model):
@@ -34,22 +36,38 @@ class PurchaseModel(models.Model):
 
 
 class RequestModel(models.Model):
-    STATUS_CHOICES = (
-        ('new', 'Новая'),
-        ('manually_filtered', 'Отфильтрована (вручную)'),
-        ('auto_filtered', 'Отфильтрована (автоматически)'),
-        ('in_progress', 'В работе'),
-        ('not_participating_objectively', 'Не участвуем (объективно)'),
-        ('not_participating_subjectively', 'Не участвуем (субъективно)'),
-        ('bid_submission', 'Подача заявки'),
-        ('bid_submitted', 'Заявка подана'),
-        ('auction', 'Торги'),
-        ('auction_completed_return_security', 'Торги завершены (возврат обеспечения)'),
-        ('auction_completed', 'Торги завершены'),
-        ('contract_signing', 'Подписание контракта'),
-        ('contract_signed', 'Контракт подписан'),
-        ('contract_executed', 'Контракт исполнен'),
-    )
+    STATE_NEW = 0
+    STATE_MANUALLY_FILTERED = 1
+    STATE_AUTO_FILTERED = 2
+    STATE_IN_PROGRESS = 3
+    STATE_NOT_PARTICIPATING_OBJECTIVELY = 4
+    STATE_NOT_PARTICIPATING_SUBJECTIVELY = 5
+    STATE_BID_SUBMISSION = 6
+    STATE_BID_SUBMITTED = 7
+    STATE_AUCTION = 8
+    STATE_AUCTION_COMPLETED_RETURN_SECURITY = 9
+    STATE_AUCTION_COMPLETED = 10
+    STATE_CONTRACT_SIGNING = 11
+    STATE_CONTRACT_SIGNED = 12
+    STATE_CONTRACT_EXECUTED = 13
+
+
+    states = {
+        STATE_NEW: _('New'),
+        STATE_MANUALLY_FILTERED: _('Manually Filtered'),
+        STATE_AUTO_FILTERED: _('Automatically Filtered'),
+        STATE_IN_PROGRESS: _('In Progress'),
+        STATE_NOT_PARTICIPATING_OBJECTIVELY: _('Not Participating (Objective)'),
+        STATE_NOT_PARTICIPATING_SUBJECTIVELY: _('Not Participating (Subjective)'),
+        STATE_BID_SUBMISSION: _('Bid Submission'),
+        STATE_BID_SUBMITTED: _('Bid Submitted'),
+        STATE_AUCTION: _('Auction'),
+        STATE_AUCTION_COMPLETED_RETURN_SECURITY: _('Auction Completed (Return Security)'),
+        STATE_AUCTION_COMPLETED: _('Auction Completed'),
+        STATE_CONTRACT_SIGNING: _('Contract Signing'),
+        STATE_CONTRACT_SIGNED: _('Contract Signed'),
+        STATE_CONTRACT_EXECUTED: _('Contract Executed'),
+    }
 
     registry_number = models.CharField(
         verbose_name='Реестровый номер извещения', max_length=75
@@ -71,8 +89,11 @@ class RequestModel(models.Model):
     )
     contract_completion_date = models.DateTimeField(verbose_name='Дата выполнения контракта', blank=True, null=True)
     comment = models.TextField(verbose_name='Комментарий', blank=True, null=True)
-    status = models.CharField(verbose_name='Статус', max_length=150, choices=STATUS_CHOICES, default='new')
+    state = FSMIntegerField(default=STATE_NEW, choices=states.items())
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.purchase_name
+
+    def state_name(self):
+        return self.states[self.state]

@@ -43,8 +43,8 @@
             <td>{% firstof request_model.comment "<b>–</b>" %}</td>
         </tr>
         <tr>
-            <td>{% trans "Status" %}</td>
-            <td>{% firstof request_model.status "<b>–</b>" %}</td>
+            <td>{% trans "State" %}</td>
+            <td>{% firstof request_model.state_name "<b>–</b>" %}</td>
         </tr>
     </tbody>
 </table>

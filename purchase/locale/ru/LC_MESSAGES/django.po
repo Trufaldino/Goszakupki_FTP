@@ -98,7 +98,7 @@ msgid "Bid Submission Deadline"
 msgstr "Окончание подачи заявок"
 
 #: purchase/templates/requests/request_list.html:16
-msgid "Status"
+msgid "State"
 msgstr "Статус"
 
 #: purchase/templates/requests/request_list.html:17
@@ -109,26 +109,91 @@ msgstr "Действия"
 msgid "Edit Purchase"
 msgstr "Редактирование закупки"
 
-#: purchase/templates/requests/request_details.html:30
+#: purchase/templates/requests/request_details.html:42
 msgid "Comment"
 msgstr "Комментарий"
 
-#: purchase/templates/requests/request_details.html:30
+#: purchase/templates/requests/request_details.html:38
 msgid "Contract Completion Date"
 msgstr "Дата выполнения контракта"
 
-#: purchase/templates/requests/request_details.html:30
+#: purchase/templates/requests/request_details.html:31
 msgid "Warranty Period"
 msgstr "Срок гарантии (мес)"
 
-#: purchase/templates/requests/request_details.html:30
+#: purchase/templates/requests/request_details.html:27
 msgid "Warranty Security Amount"
 msgstr "Размер обеспечения гарантии (руб)"
 
-#: purchase/templates/requests/request_details.html:30
+#: purchase/templates/requests/request_details.html:23
 msgid "Work Security Amount"
 msgstr "Размер обеспечения работ (руб)"
 
-#: purchase/templates/requests/request_details.html:30
+#: purchase/templates/requests/request_details.html:19
 msgid "Bid Security Amount"
 msgstr "Размер обеспечения заявки (руб)"
+
+#: purchase/purchase_app/models.py:55
+msgid "New"
+msgstr "Новая"
+
+#: purchase/purchase_app/models.py:56
+msgid "Manually Filtered"
+msgstr "Отфильтрована (вручную)"
+
+#: purchase/purchase_app/models.py:57
+msgid "Automatically Filtered"
+msgstr "Отфильтрована (автоматически)"
+
+#: purchase/purchase_app/models.py:58
+msgid "In Progress"
+msgstr "В работе"
+
+#: purchase/purchase_app/models.py:59
+msgid "Not Participating (Objective)"
+msgstr "Не участвуем (объективно)"
+
+#: purchase/purchase_app/models.py:60
+msgid "Not Participating (Subjective)"
+msgstr "Не участвуем (субъективно)"
+
+#: purchase/purchase_app/models.py:61
+msgid "Bid Submission"
+msgstr "Подача заявки"
+
+#: purchase/purchase_app/models.py:62
+msgid "Bid Submitted"
+msgstr "Заявка подана"
+
+#: purchase/purchase_app/models.py:63
+msgid "Auction"
+msgstr "Торги"
+
+#: purchase/purchase_app/models.py:64
+msgid "Auction Completed (Return Security)"
+msgstr "Торги завершены (возврат обеспечения)"
+
+#: purchase/purchase_app/models.py:65
+msgid "Auction Completed"
+msgstr "Торги завершены"
+
+#: purchase/purchase_app/models.py:66
+msgid "Contract Signing"
+msgstr "Подписание контракта"
+
+#: purchase/purchase_app/models.py:67
+msgid "Contract Signed"
+msgstr "Контракт подписан"
+
+#: purchase/purchase_app/models.py:68
+msgid "Contract Executed"
+msgstr "Контракт исполнен"
+
+#: purchase/templates/requests/create_request.html:8
+#: purchase/templates/requests/request_list.html:6
+msgid "Add"
+msgstr "Добавить"
+
+#: purchase/templates/requests/request_list.html:30
+msgid "Edit"
+msgstr "Редактировать"
