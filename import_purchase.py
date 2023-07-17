@@ -1,7 +1,11 @@
 import os
-import sqlite3
 import re
 from datetime import datetime
+import psycopg2
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 def get_latest_file(directory):
@@ -24,30 +28,47 @@ def get_latest_file(directory):
 
 
 def create_database():
-    conn = sqlite3.connect("purchase/database.db")
+    conn = psycopg2.connect(
+        database=os.environ.get("DB_NAME"),
+        user=os.environ.get("DB_USER"),
+        password=os.environ.get("DB_PASSWORD"),
+        host="localhost",
+        port=os.environ.get("DB_PORT")
+    )
     c = conn.cursor()
 
-    c.execute("CREATE TABLE IF NOT EXISTS purchase_files (id INTEGER PRIMARY KEY, filename TEXT, file_date TEXT, import_date TEXT, record_count INTEGER, status TEXT)")
+    c.execute("CREATE TABLE IF NOT EXISTS purchase_files (id SERIAL PRIMARY KEY, filename TEXT, file_date DATE, import_date TIMESTAMP, record_count INTEGER, status TEXT)")
 
     conn.commit()
     conn.close()
 
+
 def check_and_insert_file(filename):
-    conn = sqlite3.connect("purchase/database.db")
+    conn = psycopg2.connect(
+        database=os.environ.get("DB_NAME"),
+        user=os.environ.get("DB_USER"),
+        password=os.environ.get("DB_PASSWORD"),
+        host="localhost",
+        port=os.environ.get("DB_PORT")
+    )
     c = conn.cursor()
 
     relative_path = os.path.relpath(filename, directory)
-    c.execute("SELECT filename FROM purchase_files WHERE filename = ?", (relative_path,))
+    c.execute("SELECT filename FROM purchase_files WHERE filename = %s", (relative_path,))
     result = c.fetchone()
 
     if not result:
         file_date = re.search(r"_(\d{10})_", filename).group(1)
-        file_date = datetime.strptime(file_date, "%Y%m%d%H").strftime("%Y-%m-%d")
-        import_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        record_count = c.execute("SELECT COUNT(*) FROM purchase_files").fetchone()[0] + 1
+        file_date = datetime.strptime(file_date, "%Y%m%d%H").date()
+        import_date = datetime.now()
+
+        c.execute("SELECT COUNT(*) FROM purchase_files")
+        count_result = c.fetchone()
+        record_count = count_result[0] + 1 if count_result else 1
+        
         status = "new"
 
-        c.execute("INSERT INTO purchase_files (filename, file_date, import_date, record_count, status) VALUES (?, ?, ?, ?, ?)",
+        c.execute("INSERT INTO purchase_files (filename, file_date, import_date, record_count, status) VALUES (%s, %s, %s, %s, %s)",
                   (relative_path, file_date, import_date, record_count, status))
 
         print("Файл успешно добавлен в базу данных.")
