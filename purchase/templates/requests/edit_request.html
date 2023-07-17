@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load custom_filters %}
 <!-- Edit Request Modal -->
 <div class="modal fade" id="editModal{{ request.id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ request.id }}" aria-hidden="true">
@@ -20,10 +21,10 @@
                   {% endif %}
                   <div class="input-group">
                     {% with field_name=field.name %}
-                      {% if field.name == 'status' %}
+                      {% if field.name == 'state' %}
                         <select name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>
                           {% for value, label in field.field.choices %}
-                            <option value="{{ value }}" {% if value == request.status %}selected{% endif %}>{{ label }}</option>
+                            <option value="{{ value }}" {% if value == request.state %}selected{% endif %}>{{ label }}</option>
                           {% endfor %}
                         </select>
                       {% elif field.name == 'contract_completion_date' or field.name == 'bid_submission_deadline' %}
@@ -41,7 +42,7 @@
             {% endfor %}
           </div>
           <div class="d-flex justify-content-end">
-          <button type="submit" name="editRequest" class="btn btn-primary">{{ "Submit" }}</button>
+          <button type="submit" name="editRequest" class="btn btn-primary">{% trans "Submit" %}</button>
           </div>
         </form>    
       </div>
