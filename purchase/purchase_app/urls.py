@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import purchase_plans, purchase_details, create_request, request_list, sign_up, login_view, logout_view, edit_request, request_details
+from .views import purchase_plans, purchase_details, create_request, request_list, sign_up, login_view, logout_view, edit_request, request_details, change_state
 
 
 app_name = 'purchase_app'
@@ -14,4 +14,5 @@ urlpatterns = [
     path('sign_up/', sign_up, name='sign_up'),
     path('edit_request/<int:id>/', edit_request, name='edit_request'),
     path('request/<int:id>/', request_details, name='request_details'),
+    path('change_state/<int:id>/', change_state, name='change_state'),
 ]

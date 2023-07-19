@@ -1,3 +1,4 @@
+{% load custom_filters %}
 {% load i18n %}
 <!-- Create Request Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -11,35 +12,27 @@
       <div class="modal-body">
         <form method="post" action="{% url 'purchase_app:create_request' %}" class="mx-auto">
           {% csrf_token %}
-          <div class="row">
-            {% for field in form %}
-              <div class="col-xl-6">
-                <div class="form-group mt-2 mb-2">
-                  {% if field.name != 'state' %}
-                    <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
-                    {% if field.field.required %}
-                      <span class="text-danger">*</span>
-                    {% endif %}
-                  {% endif %}
-                  <div class="input-group">
-                    {% if field.name == 'state' %}
-                      {% if not form.instance.pk %}
-                        <input type="hidden" name="{{ field.html_name }}" value="{{ field.field.initial }}">
-                      {% endif %}
-                    {% else %}
-                      <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %} {% if field.value %}value="{{ field.value }}"{% endif %}>
-                    {% endif %}
+            <div class="row">
+              {% for field in form %}
+                <div class="col-xl-6">
+                  <div class="form-group mt-2 mb-2">
+                      <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
+                        {% if field.field.required %}
+                          <span class="text-danger">*</span>
+                        {% endif %}
+                          <div class="input-group">
+                            <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %} {% if field.value %}value="{{ field.value }}"{% endif %}>
+                          </div>
+                      {% for error in field.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                      {% endfor %}
                   </div>
-                  {% for error in field.errors %}
-                    <div class="text-danger">{{ error }}</div>
-                  {% endfor %}
                 </div>
+                {% endfor %}
               </div>
-            {% endfor %}
-          </div>
-          <div class="d-flex justify-content-end">
-            <button type="submit" name="createRequest" class="btn btn-primary">{% trans "Submit" %}</button>
-          </div>
+            <div class="d-flex justify-content-end">
+              <button type="submit" name="createRequest" class="btn btn-primary">{% trans "Submit" %}</button>
+            </div>
         </form>    
       </div>
     </div>
