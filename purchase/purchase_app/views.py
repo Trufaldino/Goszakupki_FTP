@@ -1,10 +1,11 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .forms import RequestModelForm
-from .models import PurchasePlanModel, PurchaseModel, RequestModel
+from .forms import RequestModelForm, StateRequestModelForm
+from .models import PurchasePlanModel, PurchaseModel, RequestModel, StateRequestModel
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.urls import reverse
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.models import LogEntry
 
 
 def login_view(request):
@@ -60,20 +61,25 @@ def create_request(request):
     
     if request.method == 'POST':
         if form.is_valid():
+            state_request = StateRequestModel.objects.create(name=StateRequestModel.STATE_CHOICES[0][0])
             request_obj = form.save(commit=False)
             request_obj.user = request.user
+            request_obj.state = state_request
             request_obj.save()
+
             return redirect('purchase_app:request_list')
     
     context = {'form': form}
     return render(request, 'requests/create_request.html', context)
 
 
+
 @login_required
 def request_list(request):
     requests = RequestModel.objects.filter(user=request.user)
     form = RequestModelForm()
-    context = {'requests': requests, 'form': form}
+    edit_state_form = StateRequestModelForm()
+    context = {'requests': requests, 'form': form, 'edit_state_form': edit_state_form,}
     return render(request, 'requests/request_list.html', context)
 
 
@@ -98,7 +104,28 @@ def edit_request(request, id):
 
 def request_details(request, id):
     request_model = RequestModel.objects.get(id=id)
+    log_entries = LogEntry.objects.filter(object_id=id, content_type__model='requestmodel')
     context = {
         'request_model': request_model,
+        'log_entries': log_entries,
     }
     return render(request, 'requests/details.html', context)
+
+
+@login_required
+def change_state(request, id):
+    request_obj = get_object_or_404(StateRequestModel, id=id,)
+
+    if request.method == 'POST':
+        edit_state_form = StateRequestModelForm(request.POST, instance=request_obj)
+        if edit_state_form.is_valid():
+            edit_state_form.save()
+            return redirect('purchase_app:request_list')
+    else:
+        edit_state_form = StateRequestModelForm(instance=request_obj)
+
+    context = {
+        'request': request_obj,
+        'edit_state_form': edit_state_form,
+    }
+    return render(request, 'requests/change_state.html', context)

@@ -1,0 +1,83 @@
+{% load i18n %}
+{% load custom_filters %}
+<!-- Edit State Modal -->
+<div class="modal fade" id="editStateModal{{ request.state.id }}" tabindex="-1" role="dialog" aria-labelledby="editStateModalLabel{{ request.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStateModalLabel{{ request.state.id }}">{{ _("Редактирование закупки") }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'purchase_app:change_state' request.state.id %}" class="mx-auto">
+                    {% csrf_token %}
+                    <div class="row">
+                        {% for field in edit_state_form %}
+                        <div class="col-md-12">
+                            <div class="form-group mt-2 mb-2">
+                                <label for="{{ field.id_for_label }}" class="font-weight-bold">{{ field.label }}</label>
+                                {% if field.field.required %}
+                                <span class="text-danger">*</span>
+                                {% endif %}
+                                <div class="input-group">
+                                    {% if field.html_name == 'name' %}
+                                    <select name="{{ field.html_name }}" class="form-select" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>
+                                        {% for value, label in field.field.choices %}
+                                        <option value="{{ value }}" {% if value == request.state.name %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% elif field.html_name == 'description' %}
+                                    <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %} value="{{ request.state.description }}" readonly>
+                                    {% else %}
+                                    <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" class="form-control" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %} value="{{ request.state.order }}" readonly>
+                                    {% endif %}
+                                </div>
+                                {% for error in field.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" name="editRequest" class="btn btn-primary">{% trans "Submit" %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var nameField = document.querySelector('#editStateModal{{ request.state.id }} select[name="name"]');
+    var orderField = document.querySelector('#editStateModal{{ request.state.id }} input[name="order"]');
+    var descriptionField = document.querySelector('#editStateModal{{ request.state.id }} input[name="description"]');
+
+    nameField.addEventListener('change', function() {
+        var selectedValue = this.value;
+
+        var options = {
+            'New': [0, 'Статус при обработке новой заявки'],
+            'Manually Filtered': [1, 'Заявка не подходит (отсеивается вручную)'],
+            'Automatically Filtered': [2, 'Заявка не подходит (отсеивается алгоритмом)'],
+            'In Progress': [3, 'Заявки интересна, идет изучение документации'],
+            'Not Participating (Objective)': [4, 'В заявке есть критические моменты, которые не позволяют взять в работу'],
+            'Not Participating (Subjective)': [5, 'Не берем в работу по субъективным причинам, например: не успеем сделать, не хватает компетенций, не достаточная стоимость контракта, нет средств на обеспечение и т.д.'],
+            'Bid Submission': [6, 'Идет процесс подачи заявки на ЭТП'],
+            'Bid Submitted': [7, 'Заявка подана на ЭТП, ожидание даты начала торгов'],
+            'Auction': [8, 'Идут торги. Устанавливается автоматически за час до начала торгов и висит до момента внесения информации о итогах'],
+            'Auction Completed (Return Security)': [9, 'Торги завершены, ожидание возврата обеспечения'],
+            'Auction Completed': [10, 'Торги завершены, обеспечение возвращено'],
+            'Contract Signing': [11, 'Идет процесс подписания контракта'],
+            'Contract Signed': [12, 'Контракт подписан, идет процесс выполнения'],
+            'Contract Executed': [13, 'Контракт завершен'],
+        };
+
+        if (options[selectedValue]) {
+            var [orderValue, descriptionValue] = options[selectedValue];
+            orderField.value = orderValue;
+            descriptionField.value = descriptionValue;
+        }
+    });
+});
+</script>

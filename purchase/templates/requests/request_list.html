@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
-
+{% load custom_filters %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h1>{% trans "My Purchases" %}</h1>
@@ -30,7 +30,9 @@
         </td>
         <td>{{ request.initial_price }}</td>
         <td>{{ request.bid_submission_deadline }}</td>
-        <td>{{ request.state_name }}</td>
+        <td>
+          <a  data-bs-toggle="modal" data-bs-target="#editStateModal{{ request.state.id }}" href="{% url 'purchase_app:change_state' request.state.id %}">{{ request.state.name }}</a>
+        </td>
         <td class="text-end">
           <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ request.id }}" href="{% url 'purchase_app:edit_request' request.id %}">{% trans "Edit" %}</a>
         </td>
@@ -40,6 +42,7 @@
 </table>
 {% for request in requests %}
 {% include 'requests/edit_request.html' %}
+{% include 'requests/edit_request_state.html' %}
 {% endfor %}
 {% include 'requests/create_request.html' %}
 {% endblock %}

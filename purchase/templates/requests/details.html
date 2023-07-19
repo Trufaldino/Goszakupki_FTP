@@ -44,7 +44,7 @@
         </tr>
         <tr>
             <td>{% trans "State" %}</td>
-            <td>{% firstof request_model.state_name "<b>–</b>" %}</td>
+            <td>{% firstof request_model.state.name "<b>–</b>" %}</td>
         </tr>
     </tbody>
 </table>
