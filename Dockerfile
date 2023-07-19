@@ -17,6 +17,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 8001
+EXPOSE 8005
 
 CMD python purchase/manage.py migrate && python purchase/manage.py compilemessages && python purchase/manage.py runserver $LISTEN_ADDR
