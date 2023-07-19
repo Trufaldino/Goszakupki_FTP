@@ -28,8 +28,8 @@
             <a href="{% url 'purchase_app:request_details' request.id %}">{{ request.purchase_name|truncatechars:200  }}</a>
           </span>
         </td>
-        <td>{{ request.initial_price }}</td>
-        <td>{{ request.bid_submission_deadline }}</td>
+        <td>{{ request.initial_price|space_separated }} ₽</td>
+        <td>{{ request.bid_submission_deadline|date:"d.m.Y H:i" }}</td>
         <td>
           <a  data-bs-toggle="modal" data-bs-target="#editStateModal{{ request.state.id }}" href="{% url 'purchase_app:change_state' request.state.id %}">{{ request.state.name }}</a>
         </td>
