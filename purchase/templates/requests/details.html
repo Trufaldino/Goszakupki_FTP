@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load custom_filters %}
 {% block content %}
 <table class="table table-sm mt-2 mb-4 table-bordered table-hover">
     <tbody>
@@ -13,30 +14,30 @@
         </tr>
         <tr>
             <td>{% trans "Initial Price" %}</td>
-            <td>{% firstof request_model.initial_price "<b>–</b>" %}</td>
+            <td>{% firstof request_model.initial_price|space_separated "<b>–</b>" %} ₽</td>
         </tr>
         <tr>
             <td>{% trans "Bid Security Amount" %}</td>
-            <td>{% firstof request_model.bid_security_amount "<b>–</b>" %}</td>
+            <td>{% firstof request_model.bid_security_amount|space_separated "<b>–</b>" %} ₽</td>
         </tr>
         <tr>
             <td>{% trans "Work Security Amount" %}</td>
-            <td>{% firstof request_model.work_security_amount "<b>–</b>" %}</td>
+            <td>{% firstof request_model.work_security_amount|space_separated "<b>–</b>" %} ₽</td>
         </tr>
         <tr>
             <td>{% trans "Warranty Security Amount" %}</td>
-            <td>{% firstof request_model.warranty_security_amount "<b>–</b>" %}</td>
+            <td>{% firstof request_model.warranty_security_amount|space_separated "<b>–</b>" %} ₽</td>
         </tr>
         <tr>
             <td>{% trans "Warranty Period" %}</td>
             <td>{% firstof request_model.warranty_period "<b>–</b>" %}</td>
         <tr>
             <td>{% trans "Bid Submission Deadline" %}</td>
-            <td>{% firstof request_model.bid_submission_deadline "<b>–</b>" %}</td>
+            <td>{% firstof request_model.bid_submission_deadline|date:"d.m.Y H:i" "<b>–</b>" %}</td>
         </tr>
         <tr>
             <td>{% trans "Contract Completion Date" %}</td>
-            <td>{% firstof request_model.contract_completion_date "<b>–</b>" %}</td>
+            <td>{% firstof request_model.contract_completion_date|date:"d.m.Y H:i" "<b>–</b>" %}</td>
         </tr>
         <tr>
             <td>{% trans "Comment" %}</td>
