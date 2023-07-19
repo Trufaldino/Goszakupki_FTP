@@ -31,7 +31,7 @@
         <td>{{ request.initial_price|space_separated }} ₽</td>
         <td>{{ request.bid_submission_deadline|date:"d.m.Y H:i" }}</td>
         <td>
-          <a  data-bs-toggle="modal" data-bs-target="#editStateModal{{ request.state.id }}" href="{% url 'purchase_app:change_state' request.state.id %}">{{ request.state.name }}</a>
+          {% trans request.state.name %}
         </td>
         <td class="text-end">
           <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ request.id }}" href="{% url 'purchase_app:edit_request' request.id %}">{% trans "Edit" %}</a>
