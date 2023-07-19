@@ -19,4 +19,4 @@ COPY . .
 
 EXPOSE 8001
 
-CMD python purchase/manage.py migrate && python purchase/manage.py compilemessages && python purchase/manage.py runserver 0.0.0.0:8001
+CMD python purchase/manage.py migrate && python purchase/manage.py compilemessages && python purchase/manage.py runserver $LISTEN_ADDR

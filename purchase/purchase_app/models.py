@@ -106,7 +106,7 @@ class RequestModel(models.Model):
     )
     contract_completion_date = models.DateTimeField(verbose_name='Дата выполнения контракта', blank=True, null=True)
     comment = models.TextField(verbose_name='Комментарий', blank=True, null=True)
-    state = models.ForeignKey(StateRequestModel, on_delete=models.CASCADE)
+    state = models.ForeignKey(StateRequestModel, on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

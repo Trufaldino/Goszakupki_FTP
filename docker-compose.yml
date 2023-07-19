@@ -5,13 +5,14 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 8001:8001
+      - ${LISTEN_ADDR}:8001
     volumes:
       - .:/app
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: always
     environment:
+      - LISTEN_ADDR=${LISTEN_ADDR}
       - DB_ENGINE=django.db.backends.postgresql
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
